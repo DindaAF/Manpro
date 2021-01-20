@@ -28,8 +28,26 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class AdminController implements Initializable {
+
+    public Menu menuFile;
+    public Menu menuHelp;
+    public TableView<Member> tabelMember;
+    public TableColumn<Member, String> colIdMember;
+    public TableColumn<Member, String> colNama;
+    public TableColumn<Member, String> colUsername;
+    public TableColumn<Member, String> colPassword;
+    public TableColumn<Member, String> colSaldo;
+
     public TableView<Film> tabelFilm;
+    public TableColumn<Film, String> colIdFilm;
+    public TableColumn<Film, String> colJudul;
+    public TableColumn<Film, String> colReleasedate;
+    public TableColumn<Film, String> colDeskripsi;
     public TableView<Studio> tabelStudio;
+    public TableColumn<Studio,String> colStudio;
+    public TableColumn<Studio,Integer> colHarga;
+    public TableColumn<Studio, String>  colJam;
+    public TableColumn<Studio, String>  colFilm;
 
     ////////Top Up
     public Label lblIdMember;
@@ -43,39 +61,10 @@ public class AdminController implements Initializable {
     public Button btnTopUp2;
     public Button btnReset;
     public Button btnClose;
+
+
+
     //////////
-    @FXML
-    private Menu menuFile;
-    @FXML
-    private Menu menuHelp;
-    @FXML
-    private TableColumn<Studio,String> colStudio;
-    @FXML
-    private TableColumn<Studio,Integer> colHarga;
-    @FXML
-    private TableColumn<Studio, String> colJam;
-    @FXML
-    private TableColumn<Studio, String> colFilm;
-    @FXML
-    private TableColumn<Film, String> colIdFilm;
-    @FXML
-    private TableColumn<Film, String> colJudul;
-    @FXML
-    private TableColumn<Film, String> colReleasedate;
-    @FXML
-    private TableColumn<Film, String> colDeskripsi;
-    @FXML
-    public TableView<Member> tabelMember;
-    @FXML
-    private TableColumn<Member, String> colIdMember;
-    @FXML
-    private TableColumn<Member, String> colNama;
-    @FXML
-    private TableColumn<Member, String> colUsername;
-    @FXML
-    private TableColumn<Member, String> colPassword;
-    @FXML
-    private TableColumn<Member, String> colSaldo;
     @FXML
     private Label lblStudio;
     @FXML
@@ -125,7 +114,8 @@ public class AdminController implements Initializable {
 
     private LoginController main;
 
-    public AdminController() {
+    public void setMain(LoginController main) {
+        this.main=main;
     }
 
 
@@ -171,7 +161,6 @@ public class AdminController implements Initializable {
         studios = FXCollections.observableArrayList();
         studios.addAll(studioDao.fetchAll());
         tabelStudio.setItems(studios);
-
     }
 
     @FXML
@@ -186,6 +175,7 @@ public class AdminController implements Initializable {
         studioUpPage.setScene(new Scene(root));
         studioUpPage.initModality(Modality.WINDOW_MODAL);
         studioUpPage.showAndWait();
+
         StudioDaoImpl studioDao= new StudioDaoImpl();
         studios = FXCollections.observableArrayList();
         studios.addAll(studioDao.fetchAll());
@@ -284,26 +274,28 @@ public class AdminController implements Initializable {
         } catch (ClassNotFoundException | SQLException e){
             e.printStackTrace();
         }
-        tabelMember.setItems(members);
-        tabelFilm.setItems(films);
+
         tabelStudio.setItems(studios);
+        colStudio.setCellValueFactory(data-> new SimpleStringProperty(data.getValue().getNamaStudio()));
+        colHarga.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getHarga()).asObject());
+        colJam.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getJamTayang()));
+        colFilm.setCellValueFactory(data-> new SimpleObjectProperty(data.getValue().getFilm_idFilm()));
+
+        tabelMember.setItems(members);
+        colIdFilm.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getIdFilm()));
+        colJudul.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getJudul()));
+        colReleasedate.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getRilis()));
+        colDeskripsi.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDeskripsi()));
+
+        tabelFilm.setItems(films);
         colIdMember.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getIdUser()));
         colNama.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getNamaUser()));
         colUsername.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getUsername()));
         colPassword.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getPassword()));
         colSaldo.setCellValueFactory(data -> new SimpleStringProperty(String.valueOf(data.getValue().getSaldo())));
-        colIdFilm.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getIdFilm()));
-        colJudul.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getJudul()));
-        colReleasedate.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getRilis()));
-        colDeskripsi.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDeskripsi()));
-        colJam.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getJamTayang()));
-        colHarga.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getHarga()).asObject());
-        colStudio.setCellValueFactory(data-> new SimpleStringProperty(data.getValue().getNamaStudio()));
-        colFilm.setCellValueFactory(data-> new SimpleObjectProperty(data.getValue().getFilm_idFilm()));
+
     }
 
-    public void ActionSaveMember(ActionEvent actionEvent) {
-    }
 
     public void closeAction(ActionEvent actionEvent) {
         System.exit(1);
@@ -320,9 +312,7 @@ public class AdminController implements Initializable {
 
 
     /////// ACTION TOP UP
-    public void ActionTopUp2(ActionEvent actionEvent) {
 
-    }
 
     public void ActionReset(ActionEvent actionEvent) {
 
@@ -353,12 +343,5 @@ public class AdminController implements Initializable {
         films = FXCollections.observableArrayList();
         films.addAll(filmDao.fetchAll());
         tabelFilm.setItems(films);
-    }
-
-
-
-
-
-    public void setMain(LoginController loginController) {
     }
 }

@@ -39,7 +39,6 @@ public class LoginController {
     public User user1;
 
 
-
     public static String getMd5(String input) {
         try {
             // Static getInstance method is called with hashing MD5
@@ -64,10 +63,6 @@ public class LoginController {
         catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public void setmain(AdminController main) {
-        this.main = main;
     }
 
 

@@ -69,7 +69,7 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
             </Label>
-            <TextField fx:id="txtPesan" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextField fx:id="txtPesan" onKeyReleased="#tes" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <Label fx:id="lblTotalBayar" text="Total Bayar" GridPane.rowIndex="5">
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

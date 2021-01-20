@@ -70,6 +70,7 @@ public class UserController implements Initializable {
     private Studio selectedStudio;
     private Film selectedFilm;
     private LoginController main;
+    public Studio studioselect;
 
 
     @FXML
@@ -86,6 +87,7 @@ public class UserController implements Initializable {
 
     @FXML
     private void ActionBeliTicket(ActionEvent actionEvent) throws IOException {
+        studioselect=tabelStudio.getSelectionModel().getSelectedItem();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/BeliTicket.fxml"));
         Parent root = loader.load();
         tiketController ticketController= loader.getController();
@@ -110,11 +112,11 @@ public class UserController implements Initializable {
             e.printStackTrace();
         }
         tabelFilm.setItems(films);
-        tabelStudio.setItems(studios);
-
         colJudul.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getJudul()));
         colRelease.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getRilis()));
         colDeskripsi.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDeskripsi()));
+
+        tabelStudio.setItems(studios);
         colJam.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getJamTayang()));
         colHarga.setCellValueFactory(data -> new SimpleIntegerProperty(data.getValue().getHarga()).asObject());
         colStudio.setCellValueFactory(data-> new SimpleIntegerProperty(data.getValue().getIdStudio()).asObject());
@@ -140,7 +142,5 @@ public class UserController implements Initializable {
         this.main=main;
         lblUser.setText(main.user1.getNamaUser());
         lblSaldo.setText(String.valueOf(main.user1.getSaldo()));
-
-
     }
 }

@@ -8,22 +8,20 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class TopUpController implements Initializable {
-    public Label lblIdMember;
     public Label lblNama;
-
     public ComboBox<Member> comboName;
     public Button btnTopUp2;
     public Button btnReset;
     public Button btnClose;
     public TextField txtTopUp;
     public Label lblTopUp;
-    private MemberDaoImpl memberDao;
     private ObservableList<Member> members;
     private AdminController adminController;
 
@@ -46,7 +44,6 @@ public class TopUpController implements Initializable {
             members.addAll(dao.fetchAll());
             adminController.tabelMember.setItems(members);
         }
-
     }
 
     public void ActionReset(ActionEvent actionEvent) {
@@ -60,30 +57,25 @@ public class TopUpController implements Initializable {
         btnTopUp2.setDisable(false);
     }
 
-
     public void ActionClose(ActionEvent actionEvent) {
-        Platform.exit();
+        Stage stage = (Stage) btnClose.getScene().getWindow();
+        stage.close();
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        memberDao = new MemberDaoImpl();
+        MemberDaoImpl memberDao = new MemberDaoImpl();
         members = FXCollections.observableArrayList();
 
-
         try {
-
             members.addAll(memberDao.fetchAll());
         } catch (ClassNotFoundException | SQLException e){
             e.printStackTrace();
         }
-
         comboName.setItems(members);
     }
     public void setMain(AdminController main){
         this.adminController = main;
-
-
     }
 
 }
