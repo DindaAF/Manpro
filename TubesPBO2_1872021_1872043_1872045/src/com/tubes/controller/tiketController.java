@@ -54,25 +54,28 @@ public class tiketController implements Initializable {
             alert.showAndWait();
         } else {
             Ticket ticket = new Ticket();
-//            ticket.setStudio_IdStudio(comboStudio.getValue().getStudio_IdStudio());
-//            ticket.setStudio_Film_IdFilm(comboStudio.getValue().getStudio_Film_IdFilm());
-//            ticket.setHarga(comboStudio.getValue().getHarga());
-//            ticket.setJam(comboStudio.getValue().getJam());
+            ticket.setStudio_IdStudio(main.studioselect);
+            ticket.setStudio_Film_IdFilm(main.studioselect);
+            ticket.setHarga(main.studioselect.getHarga());
+            ticket.setJam(main.studioselect.getJamTayang());
             ticket.setJumlahpesan(Integer.parseInt(txtPesan.getText()));
             ticket.setTotalbayar(Integer.parseInt(txtTotalBayar.getText()));
             Member member = new Member();
-            //member.setIdUser();
-            //member.setSaldo();
+//            member.setIdUser(LoginController.user1);
+            int s=member.getSaldo();
+            System.out.println(s);
+//            member.setSaldo();
             member.kurangSaldo(Integer.parseInt(txtTotalBayar.getText()));;
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setContentText("Berhasil Top Up user ");
+            alert.setContentText("Berhasil Membeli tiket ");
             alert.showAndWait();
 
             TicketDaoImpl dao = new TicketDaoImpl();
             dao.addData(ticket);
             MemberDaoImpl memberdao = new MemberDaoImpl();
             memberdao.updateSaldo(member);
+
             members = FXCollections.observableArrayList();
             members.addAll(memberdao.fetchAll());
             adminController.tabelMember.setItems(members);

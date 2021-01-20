@@ -1,6 +1,5 @@
 package com.tubes.dao;
 
-import com.mysql.cj.jdbc.JdbcConnection;
 import com.tubes.Entity.User;
 import com.tubes.util.DaoService;
 import com.tubes.util.MySQLConnection;
