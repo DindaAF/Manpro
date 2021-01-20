@@ -10,7 +10,7 @@ public class MySQLConnection {
     private static final String PASSWORD = "";
 
     public static Connection createConnection() throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.cj.jdbc.Driver");
+        Class.forName("com.mysql.jdbc.Driver");
         Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
         connection.setAutoCommit(false);
         return connection;
